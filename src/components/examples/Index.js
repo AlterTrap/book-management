@@ -21,11 +21,7 @@ function Index() {
     getExamples();
   }, []);
 
-  return (
-    <div>
-      <Table list={list} />
-    </div>
-  );
+  return <div>{/* <Table list={list} /> */}</div>;
 }
 
 export default Index;

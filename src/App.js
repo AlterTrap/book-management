@@ -1,14 +1,14 @@
 import logo from './logo.svg';
 import './App.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import ExampleIndex from './components/examples/Index';
+import BookIndex from './components/books/Index';
 
 function App() {
   const router = createBrowserRouter([
     { path: '/', element: <div>Hello world!</div> },
     {
-      path: '/examples',
-      element: <ExampleIndex />,
+      path: '/books',
+      element: <BookIndex />,
     },
   ]);
 
