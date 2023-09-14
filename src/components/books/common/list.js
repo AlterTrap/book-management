@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { format } from 'date-fns';
 
 function List(props) {
   const { list } = props;
@@ -12,7 +13,7 @@ function List(props) {
             {book.name}
             {book.category}
             {book.createAt}
-            {book.updatedAt}
+            {format(new Date(book.updatedAt), 'MM/dd/yyyy')}
           </li>
         ))}
       </ul>
