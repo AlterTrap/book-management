@@ -18,9 +18,9 @@ function Index() {
       } else {
         const params = {};
 
-        if (!name || name.trim() !== '') params.name = name;
+        if (name && name.trim('')) params.name = name;
 
-        if (!category || category.trim() !== '') params.category = category;
+        if (category && category.trim('')) params.category = category;
 
         try {
           res = await API.get('books', { params: params });
@@ -40,11 +40,7 @@ function Index() {
     getBooks();
   }, []);
 
-  return (
-    <div>
-      <List list={list} />
-    </div>
-  );
+  return <List list={list} />;
 }
 
 export default Index;
