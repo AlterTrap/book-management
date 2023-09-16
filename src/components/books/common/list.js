@@ -5,32 +5,28 @@ function List(props) {
   const { list } = props;
   return (
     <Fragment>
-      {list.length === 0 ? (
-        <p>No book found</p>
-      ) : (
-        <table border='1'>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Created At</th>
-              <th>Updated At</th>
+      <table border='1'>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+          </tr>
+        </thead>
+        <tbody>
+          {list.map((book) => (
+            <tr key={book.id}>
+              <td>{book.id}</td>
+              <td>{book.name}</td>
+              <td>{book.category}</td>
+              <td>{format(new Date(book.createdAt), 'MM/dd/yyyy')}</td>
+              <td>{format(new Date(book.updatedAt), 'MM/dd/yyyy')}</td>
             </tr>
-          </thead>
-          <tbody>
-            {list.map((book) => (
-              <tr key={book.id}>
-                <td>{book.id}</td>
-                <td>{book.name}</td>
-                <td>{book.category}</td>
-                <td>{format(new Date(book.createdAt), 'MM/dd/yyyy')}</td>
-                <td>{format(new Date(book.updatedAt), 'MM/dd/yyyy')}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+          ))}
+        </tbody>
+      </table>
     </Fragment>
   );
 }

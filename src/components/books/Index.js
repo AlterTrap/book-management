@@ -1,46 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import List from '../books/common/list';
-import API from '../books/common/api';
+import Error from '../books/common/error';
+import API from '../../api';
 
 function Index() {
   const [searchParams] = useSearchParams();
   const name = searchParams.get('name');
   const category = searchParams.get('category');
   const [list, setList] = useState([]);
+  const [error, setError] = useState(null);
 
   // get data from server (side effect codes)
   useEffect(() => {
     const getBooks = async () => {
-      let res = {};
-      if (!name && !category) {
-        res = await API.get('books', {});
-      } else {
-        const params = {};
+      const params = {};
 
-        if (name && name.trim('')) params.name = name;
+      if (name && name.trim('')) params.name = name;
 
-        if (category && category.trim('')) params.category = category;
+      if (category && category.trim('')) params.category = category;
 
-        try {
-          res = await API.get('books', { params: params });
-        } catch (err) {
-          res = null;
+      try {
+        const res = await API.get('books', { params: params });
+
+        setList(res.data);
+      } catch (err) {
+        if (err.response && err.response.status === 404) {
+          setError(<Error />);
         }
       }
-
-      if (!res) {
-        setList([]);
-        return;
-      }
-
-      setList(res.data);
     };
 
     getBooks();
   }, []);
 
-  return <List list={list} />;
+  if (error) {
+    return error;
+  } else {
+    return <List list={list} />;
+  }
 }
 
 export default Index;
