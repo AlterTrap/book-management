@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import List from '../books/common/list';
-import Error from '../books/common/error';
-import API from '../../api';
+import List from '../common/list';
+import Error from '../common/error';
+import API from '../common/api';
 
 function Index() {
   const [searchParams] = useSearchParams();
   const name = searchParams.get('name');
   const category = searchParams.get('category');
   const [list, setList] = useState([]);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
 
   // get data from server (side effect codes)
   useEffect(() => {
@@ -26,7 +26,9 @@ function Index() {
         setList(res.data);
       } catch (err) {
         if (err.response && err.response.status === 404) {
-          setError(<Error />);
+          setError(err.response.statusText);
+        } else if (err.response.status === 500) {
+          setError(err.response.statusText);
         }
       }
     };
@@ -35,7 +37,7 @@ function Index() {
   }, []);
 
   if (error) {
-    return error;
+    return <Error msg={error} />;
   } else {
     return <List list={list} />;
   }
