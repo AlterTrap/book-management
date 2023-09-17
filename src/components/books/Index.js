@@ -26,9 +26,9 @@ function Index() {
         setList(res.data);
       } catch (err) {
         if (err.response && err.response.status === 404) {
-          setError(err.response.statusText);
+          setError('Book Not Found');
         } else if (err.response.status === 500) {
-          setError(err.response.statusText);
+          setError('Internal server error, please try again later');
         }
       }
     };
