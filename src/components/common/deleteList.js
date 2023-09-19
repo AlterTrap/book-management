@@ -5,8 +5,13 @@ function DeleteList(props) {
   const { list, delBooks } = props;
 
   const handleDelete = (id) => {
-    // Call the delBooks function passed from props
-    delBooks(id);
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete this item?'
+    );
+    if (confirmDelete) {
+      // Call the delBooks function passed from props
+      delBooks(id);
+    }
   };
 
   return (
