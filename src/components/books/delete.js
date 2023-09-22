@@ -1,32 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import Error from '../common/error';
 import API from '../common/api';
-import DeleteList from '../common/deleteList';
 
 function Delete() {
-  const [list, setList] = useState([]);
+  const navigate = useNavigate();
   const [error, setError] = useState('');
+  const id = useParams();
 
-  // get data from server (side effect codes)
-  const getBooks = async () => {
+  const delBooks = async () => {
     try {
-      const res = await API.get('books');
+      await API.delete(`books/${id.id}`);
 
-      setList(res.data);
-    } catch (err) {
-      if (err.response && err.response.status === 404) {
-        setError('Book Not Found');
-      } else if (err.response.status === 500) {
-        setError('Internal server error, please try again later');
-      }
-    }
-  };
-
-  const delBooks = async (id) => {
-    try {
-      await API.delete(`books/${id}`);
-
-      getBooks();
+      navigate('/books');
     } catch (err) {
       if (err.response && err.response.status === 404) {
         setError('Book Not Found');
@@ -37,13 +23,11 @@ function Delete() {
   };
 
   useEffect(() => {
-    getBooks();
+    delBooks();
   }, []);
 
   if (error) {
     return <Error msg={error} />;
-  } else {
-    return <DeleteList list={list} delBooks={delBooks} />;
   }
 }
 
