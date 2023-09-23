@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Error from '../common/error';
 import API from '../common/api';
-import List from '../common/list';
 import CreateBook from '../common/create';
 
 function Create() {
@@ -10,8 +10,8 @@ function Create() {
     category: '',
   });
   const [error, setError] = useState('');
-  const [list, setList] = useState([]);
   const [valCheck, setValCheck] = useState('');
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -37,21 +37,6 @@ function Create() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // get data from server (side effect codes)
-  const getBooks = async () => {
-    try {
-      const res = await API.get('books');
-
-      setList(res.data);
-    } catch (err) {
-      if (err.response && err.response.status === 404) {
-        setError('Book Not Found');
-      } else if (err.response.status === 500) {
-        setError('Internal server error, please try again later');
-      }
-    }
-  };
-
   const createBook = async (e) => {
     e.preventDefault();
 
@@ -67,7 +52,7 @@ function Create() {
     try {
       await API.post(`books/`, data);
 
-      getBooks();
+      navigate('/books');
     } catch (err) {
       if (err.response.status === 500) {
         return <Error msg={'Internal server error, please try again later'} />;
@@ -77,18 +62,14 @@ function Create() {
     }
   };
 
-  if (list.length !== 0) {
-    return <List list={list} />;
-  } else {
-    return (
-      <CreateBook
-        createBook={createBook}
-        error={error}
-        handleInputChange={handleInputChange}
-        valCheck={valCheck}
-      />
-    );
-  }
+  return (
+    <CreateBook
+      createBook={createBook}
+      error={error}
+      handleInputChange={handleInputChange}
+      valCheck={valCheck}
+    />
+  );
 }
 
 export default Create;

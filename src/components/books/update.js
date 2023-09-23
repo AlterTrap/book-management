@@ -18,7 +18,7 @@ function Update() {
     const getDataBooks = async () => {
       const params = {};
 
-      if (id) {
+      if (!isNaN(id)) {
         params.id = id.id;
       }
 

@@ -14,8 +14,16 @@ function UpdateBook(props) {
 
   return (
     <Fragment>
-      <div>
-        <h1>Add Book</h1>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '100vh',
+        }}
+      >
+        <h1>Update Book</h1>
         {error && <span>{error}</span>}
         <form onSubmit={(e) => handleSubmit(e)}>
           <div>

@@ -11,13 +11,28 @@ function DetailBook(props) {
   };
 
   const handleDeleteClick = (bookId) => {
-    // Navigate to the details page or any other route you want
-    navigate(`/books/delete/${bookId}`);
+    const userConfirmed = window.confirm(
+      'Are you sure you want to delete this item?'
+    );
+
+    if (userConfirmed) {
+      navigate(`/books/delete/${bookId}`);
+    } else {
+      navigate(`/books/${bookId}`, { replace: true });
+    }
   };
 
   return (
     <Fragment>
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '100vh',
+        }}
+      >
         <h1>Book</h1>
         <form>
           <div>

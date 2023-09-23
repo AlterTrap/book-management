@@ -18,10 +18,11 @@ function DetailBook() {
     const getDataBooks = async () => {
       const params = {};
 
-      if (id) {
+      if (!isNaN(id)) {
         params.id = id;
+      } else {
+        return setError('Bad Request');
       }
-      console.log(params);
 
       try {
         const res = await API.get('books', { params: params });
