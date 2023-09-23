@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Error from '../common/error';
 import API from '../common/api';
-import Detail from '../common/detail';
+import DisplayDetail from './displayDetail';
 
 function DetailBook() {
+  const navigate = useNavigate();
   const [state, setState] = useState({
     id: '',
     name: '',
@@ -44,10 +45,24 @@ function DetailBook() {
     getDataBooks();
   }, [id]);
 
+  const delBooks = async (bookId) => {
+    try {
+      await API.delete(`books/${bookId}`);
+
+      navigate('/books', { replace: true });
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        setError('Book Not Found');
+      } else if (err.response.status === 500) {
+        setError('Internal server error, please try again later');
+      }
+    }
+  };
+
   if (error) {
     return <Error msg={error} />;
   } else {
-    return <Detail state={state} />;
+    return <DisplayDetail state={state} delBooks={delBooks} />;
   }
 }
 

@@ -2,15 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Error from '../common/error';
 import API from '../common/api';
-import UpdateBook from '../common/update';
+import UpdateBook from '../books/displayUpdate';
 
 function Update() {
   const [state, setState] = useState({
+    id: '',
     name: '',
     category: '',
   });
   const [error, setError] = useState('');
   const [valCheck, setValCheck] = useState('');
+  const [serverError, setServerError] = useState('');
   const id = useParams();
   const navigate = useNavigate();
 
@@ -18,7 +20,7 @@ function Update() {
     const getDataBooks = async () => {
       const params = {};
 
-      if (!isNaN(id)) {
+      if (!isNaN(id.id)) {
         params.id = id.id;
       }
 
@@ -84,22 +86,26 @@ function Update() {
       navigate('/books');
     } catch (err) {
       if (err.response.status === 500) {
-        return <Error msg={'Internal server error, please try again later'} />;
+        setServerError('Internal server error, please try again later');
       } else if (err.response.status === 409) {
         setError(err.response.data);
       }
     }
   };
 
-  return (
-    <UpdateBook
-      updateBook={updateBook}
-      error={error}
-      handleInputChange={handleInputChange}
-      valCheck={valCheck}
-      state={state}
-    />
-  );
+  if (serverError) {
+    <Error msg={serverError} />;
+  } else {
+    return (
+      <UpdateBook
+        updateBook={updateBook}
+        error={error}
+        handleInputChange={handleInputChange}
+        valCheck={valCheck}
+        state={state}
+      />
+    );
+  }
 }
 
 export default Update;

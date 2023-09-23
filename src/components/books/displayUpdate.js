@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function UpdateBook(props) {
+  const navigate = useNavigate();
   console.log(props);
   const { error, updateBook, handleInputChange, valCheck, state } = props;
 
@@ -10,6 +12,10 @@ function UpdateBook(props) {
 
   const handleInput = (e) => {
     handleInputChange(e);
+  };
+
+  const handleBack = (e) => {
+    navigate('/books');
   };
 
   return (
@@ -49,6 +55,9 @@ function UpdateBook(props) {
             )}
           </div>
           <button type='submit'>Submit</button>
+          <button type='submit' onClick={(e) => handleBack(e)}>
+            Back
+          </button>
         </form>
       </div>
     </Fragment>

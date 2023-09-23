@@ -1,9 +1,8 @@
 import './App.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import BookIndex from './components/books/Index';
-import BookDelete from './components/books/delete';
-import BookCreate from './components/books/create';
-import BookUpdate from './components/books/update';
+import BookCreate from './components/books/Create';
+import BookUpdate from './components/books/Update';
 import BookDetail from './components/books/Detail';
 
 function App() {
@@ -20,10 +19,6 @@ function App() {
     {
       path: '/books/create',
       element: <BookCreate />,
-    },
-    {
-      path: '/books/delete/:id',
-      element: <BookDelete />,
     },
     {
       path: `/books/update/:id`,

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Error from '../common/error';
 import API from '../common/api';
-import CreateBook from '../common/create';
+import CreateBook from './displayCreate';
 
 function Create() {
   const [state, setState] = useState({

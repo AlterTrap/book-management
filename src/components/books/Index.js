@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import List from '../common/list';
+import List from '../books/displayList';
 import Error from '../common/error';
 import API from '../common/api';
 

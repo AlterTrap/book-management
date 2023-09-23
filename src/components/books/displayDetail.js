@@ -1,24 +1,25 @@
 import React, { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function DetailBook(props) {
+function DisplayDetail(props) {
   const navigate = useNavigate();
-  const { state } = props;
+  const { state, delBooks } = props;
 
   const handleUpdateClick = (bookId) => {
     // Navigate to the details page or any other route you want
     navigate(`/books/update/${bookId}`);
   };
 
-  const handleDeleteClick = (bookId) => {
+  const handleDeleteClick = async (e, bookId) => {
+    e.preventDefault();
     const userConfirmed = window.confirm(
       'Are you sure you want to delete this item?'
     );
 
     if (userConfirmed) {
-      navigate(`/books/delete/${bookId}`);
+      delBooks(bookId);
     } else {
-      navigate(`/books/${bookId}`, { replace: true });
+      navigate(`/books/${bookId}`);
     }
   };
 
@@ -36,22 +37,17 @@ function DetailBook(props) {
         <h1>Book</h1>
         <form>
           <div>
-            <label>Name:</label>
-            <input type='text' name='name' value={state.name} disabled />
+            <label>Name: </label>
+            <span>{state.name}</span>
           </div>
           <div>
-            <label>Category:</label>
-            <input
-              type='text'
-              name='category'
-              value={state.category}
-              disabled
-            />
+            <label>Category: </label>
+            <span>{state.category}</span>
           </div>
           <button type='submit' onClick={() => handleUpdateClick(state.id)}>
             Update
           </button>
-          <button type='submit' onClick={() => handleDeleteClick(state.id)}>
+          <button type='submit' onClick={(e) => handleDeleteClick(e, state.id)}>
             Delete
           </button>
         </form>
@@ -60,4 +56,4 @@ function DetailBook(props) {
   );
 }
 
-export default DetailBook;
+export default DisplayDetail;
