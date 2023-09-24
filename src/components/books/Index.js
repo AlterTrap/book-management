@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import List from '../books/displayList';
-import Error from '../common/error';
-import API from '../common/api';
+import List from '../books/DisplayList';
+import Error from '../common/Error';
+import API from '../common/Api';
 
 function Index() {
   const [searchParams] = useSearchParams();
@@ -34,7 +34,7 @@ function Index() {
     };
 
     getBooks();
-  }, []);
+  }, [name, category]);
 
   if (error) {
     return <Error msg={error} />;

@@ -48,7 +48,9 @@ function CreateBook(props) {
             )}
           </div>
           <button type='submit'>Submit</button>
-          <button type='submit' onClick={(e) => handleBack(e)}></button>
+          <button type='submit' onClick={(e) => handleBack(e)}>
+            Back
+          </button>
         </form>
       </div>
     </Fragment>

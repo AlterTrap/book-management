@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Error from '../common/error';
-import API from '../common/api';
-import UpdateBook from '../books/displayUpdate';
+import Error from '../common/Error';
+import API from '../common/Api';
+import UpdateBook from './DisplayUpdate';
 
 function Update() {
   const [state, setState] = useState({
