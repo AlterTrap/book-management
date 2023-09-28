@@ -23,6 +23,10 @@ function DisplayDetail(props) {
     }
   };
 
+  const handleBack = (e) => {
+    navigate('/books');
+  };
+
   return (
     <Fragment>
       <div
@@ -49,6 +53,9 @@ function DisplayDetail(props) {
           </button>
           <button type='submit' onClick={(e) => handleDeleteClick(e, state.id)}>
             Delete
+          </button>
+          <button type='submit' onClick={(e) => handleBack(e)}>
+            Back
           </button>
         </form>
       </div>
