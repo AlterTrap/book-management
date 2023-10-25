@@ -1,43 +1,39 @@
 import { useEffect, useState } from 'react';
 import { useContext } from 'react';
-import axios from '../components/common/Api';
-// import { useNavigate } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 
 const { createContext } = require('react');
 
 export const AuthContext = createContext();
 
-export function useAuth() {
+export const useAuth = () => {
   return useContext(AuthContext);
 }
 
-function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  // const navigate = useNavigate();
+const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(undefined);
 
   useEffect(() => {
-    checkAuth();
-  }, []);
+    const token = localStorage.getItem('jwtToken');
 
-  const checkAuth = async () => {
-    try {
-      const res = await axios.post('/check-auth');
-
-      console.log('res', res);
-
-      if (res.data.user) {
-        setUser(res.data.user);
-      } else {
-        setUser(null);
-        // navigate('/login');
-      }
-    } catch (e) {
-      console.log('error', e);
+    if (token) {
+      // User is logged in
+      const decodedToken = jwtDecode(token);
+      setUser({
+        id: decodedToken.id,
+        username: decodedToken.username,
+      });
+    } else {
+      // User is not logged in
       setUser(null);
     }
-  };
+  }, []);
 
-  return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, setUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export default AuthProvider;

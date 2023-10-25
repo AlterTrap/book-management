@@ -1,27 +1,28 @@
 import { useState } from 'react';
 import axios from '../common/Api';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../providers/AuthProvider';
 import jwtDecode from 'jwt-decode';
+import { useAuth } from '../../providers/AuthProvider';
 
-function Login() {
+function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordCfm, setPasswordCfm] = useState('');
   const navigate = useNavigate();
   const { setUser } = useAuth();
 
-
-  const login = async () => {
+  const register = async () => {
     try {
-      const res = await axios.post('/login', {
+      const res = await axios.post('/register', {
         username,
+        passwordCfm,
         password,
       });
 
       const token = res.data.token;
 
       localStorage.setItem('jwtToken', token);
-      
+
       const decodedToken = jwtDecode(token);
       setUser({
         id: decodedToken.id,
@@ -61,10 +62,20 @@ function Login() {
         />
       </div>
       <div>
-        <button onClick={login}>Login</button>
+        <label htmlFor='passwordCfm'>Password Confirm</label>
+        <input
+          type='password'
+          id='passwordCfm'
+          placeholder='password confirm'
+          value={passwordCfm}
+          onChange={(e) => setPasswordCfm(e.target.value)}
+        />
+      </div>
+      <div>
+        <button onClick={register}>Register</button>
       </div>
     </>
   );
 }
 
-export default Login;
+export default Register;

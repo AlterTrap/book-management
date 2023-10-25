@@ -5,9 +5,8 @@ import BookCreate from '../components/books/Create';
 import BookUpdate from '../components/books/Update';
 import BookDetail from '../components/books/Detail';
 
-function PrivateRoutes() {
-  const user = useAuth();
-  console.log('🚀 ~ file: PrivateRoutes.js:10 ~ PrivateRoutes ~ user:', user);
+function AuthRoutes() {
+  const { user } = useAuth();
 
   const routes = [
     {
@@ -27,21 +26,33 @@ function PrivateRoutes() {
       element: <BookUpdate />,
     },
   ];
+  
 
   return (
     <Routes>
-      {routes.map((route, index) => (
-        <Route
-          key={index}
-          path={route.path}
-          exact={route.exact || false}
-          element={(props) =>
-            user ? <route.element {...props} /> : <Navigate to='/login' />
-          }
-        />
-      ))}
+      {routes.map((route, index) => {
+        if (user) {
+          return (
+            <Route
+              key={index}
+              path={route.path}
+              exact={route.exact || false}
+              element={route.element}
+            />
+          );
+        } else if (user === null) {
+          return (
+            <Route
+              key={index}
+              path={route.path}
+              exact={route.exact || false}
+              element={<Navigate to='/login' />}
+            />
+          );
+        }
+      })}
     </Routes>
   );
 }
 
-export default PrivateRoutes;
+export default AuthRoutes;
