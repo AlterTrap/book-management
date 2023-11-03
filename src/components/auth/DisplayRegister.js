@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../provider/AuthProvider';
 
 function DisplayRegister(props) {
@@ -20,7 +20,7 @@ function DisplayRegister(props) {
   };
 
   return user ? (
-    navigate('/books')
+    <Navigate to='/books' replace={true} />
   ) : (
     <Fragment>
       <div

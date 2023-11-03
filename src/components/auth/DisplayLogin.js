@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../provider/AuthProvider';
 
@@ -20,7 +20,7 @@ function DisplayLogin(props) {
   };
 
   return user ? (
-    <Navigate to='/login' replace={true} />
+    <Navigate to='/books' replace={true} />
   ) : (
     <Fragment>
       <div
