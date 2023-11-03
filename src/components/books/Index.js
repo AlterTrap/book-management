@@ -12,29 +12,28 @@ function Index() {
   const [error, setError] = useState('');
 
   // get data from server (side effect codes)
-  useEffect(() => {
-    const getBooks = async () => {
-      const params = {};
+  const getBooks = async () => {
+    const params = {};
 
-      if (name && name.trim('')) params.name = name;
+    if (name && name.trim('')) params.name = name;
 
-      if (category && category.trim('')) params.category = category;
+    if (category && category.trim('')) params.category = category;
 
-      try {
-        const res = await API.get('books', { params: params });
+    try {
+      const res = await API.get('books', { params: params });
 
-        setList(res.data);
-      } catch (err) {
-        if (err.response && err.response.status === 404) {
-          setError('Book Not Found');
-        } else if (err.response.status === 500) {
-          setError('Internal server error, please try again later');
-        }
+      setList(res.data);
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        setError('Book Not Found');
+      } else if (err.response && err.response.status === 500) {
+        setError('Internal server error, please try again later');
       }
-    };
-
+    }
+  };
+  useEffect(() => {
     getBooks();
-  }, [name, category]);
+  }, []);
 
   if (error) {
     return <Error msg={error} />;

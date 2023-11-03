@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 function UpdateBook(props) {
   const navigate = useNavigate();
-  console.log(props);
   const { error, updateBook, handleInputChange, valCheck, state } = props;
 
   const handleSubmit = (e) => {

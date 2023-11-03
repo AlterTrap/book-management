@@ -10,6 +10,7 @@ function Create() {
     category: '',
   });
   const [error, setError] = useState('');
+  const [serverErr, setServerErr] = useState('');
   const [valCheck, setValCheck] = useState('');
   const navigate = useNavigate();
 
@@ -54,22 +55,26 @@ function Create() {
 
       navigate('/books');
     } catch (err) {
-      if (err.response.status === 500) {
-        return <Error msg={'Internal server error, please try again later'} />;
-      } else if (err.response.status === 409) {
+      if (err.response && err.response.status === 500) {
+        setServerErr('Internal server error, please try again later');
+      } else if (err.response && err.response.status === 409) {
         setError(err.response.data);
       }
     }
   };
 
-  return (
-    <CreateBook
-      createBook={createBook}
-      error={error}
-      handleInputChange={handleInputChange}
-      valCheck={valCheck}
-    />
-  );
+  if (serverErr) {
+    <Error msg={serverErr} />;
+  } else {
+    return (
+      <CreateBook
+        createBook={createBook}
+        error={error}
+        handleInputChange={handleInputChange}
+        valCheck={valCheck}
+      />
+    );
+  }
 }
 
 export default Create;

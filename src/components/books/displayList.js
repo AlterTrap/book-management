@@ -7,14 +7,18 @@ function List(props) {
   const { list } = props;
 
   const handleRowClick = (bookId) => {
-    // Navigate to the details page or any other route you want
     navigate(`/books/${bookId}`);
   };
 
   const handleCreateClick = () => {
-    // Navigate to the details page or any other route you want
     navigate(`/books/create`);
   };
+
+  const handleLogoutClick = async () => {
+    await localStorage.removeItem('jwtToken');
+    navigate(`/login`);
+  };
+
   return (
     <Fragment>
       <div
@@ -27,16 +31,17 @@ function List(props) {
           padding: '20px',
         }}
       >
-        <button
-          onClick={() => handleCreateClick()}
+        <div
           style={{
-            alignSelf: 'flex-start',
+            display: 'flex',
+            justifyContent: 'space-between', // This will push buttons to the sides
+            width: '40%',
             marginBottom: '10px',
-            marginLeft: '500px', // Thêm marginLeft để đẩy nút ra sát góc trái của bảng
           }}
         >
-          Add Book
-        </button>
+          <button onClick={() => handleCreateClick()}>Add Book</button>
+          <button onClick={() => handleLogoutClick()}>Log Out</button>
+        </div>
         <table
           border='1'
           style={{
