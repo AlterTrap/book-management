@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
+import LogoutLayout from '../common/LogoutLayout';
 
 function DisplayDetail(props) {
   const navigate = useNavigate();
   const { state, delBooks } = props;
 
   const handleUpdateClick = (bookId) => {
-    // Navigate to the details page or any other route you want
     navigate(`/books/update/${bookId}`);
   };
 
@@ -21,10 +21,6 @@ function DisplayDetail(props) {
     } else {
       navigate(`/books/${bookId}`);
     }
-  };
-
-  const handleBack = (e) => {
-    navigate('/books');
   };
 
   return (
@@ -54,9 +50,10 @@ function DisplayDetail(props) {
           <button type='submit' onClick={(e) => handleDeleteClick(e, state.id)}>
             Delete
           </button>
-          <button type='submit' onClick={(e) => handleBack(e)}>
+          <button type='submit' onClick={() => navigate('/books')}>
             Back
           </button>
+          <LogoutLayout />
         </form>
       </div>
     </Fragment>

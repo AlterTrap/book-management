@@ -1,23 +1,9 @@
 import React, { Fragment } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
-import { useAuth } from '../provider/AuthProvider';
 
 function DisplayLogin(props) {
   const navigate = useNavigate();
-  const { error, login, handleInputChange, valCheck } = props;
-  const { user } = useAuth();
-
-  const handleSubmit = (e) => {
-    login(e);
-  };
-
-  const handleInput = (e) => {
-    handleInputChange(e);
-  };
-
-  const handlRegister = (e) => {
-    navigate('/register');
-  };
+  const { error, login, handleInputChange, validationErrors, user } = props;
 
   return user ? (
     <Navigate to='/books' replace={true} />
@@ -34,16 +20,16 @@ function DisplayLogin(props) {
       >
         <h1>Login</h1>
         {error && <span>{error}</span>}
-        <form onSubmit={(e) => handleSubmit(e)}>
+        <form onSubmit={(e) => login(e)}>
           <div>
             <label>Username:</label>
             <input
               type='text'
               name='username'
-              onChange={(e) => handleInput(e)}
+              onChange={(e) => handleInputChange(e)}
             />
-            {valCheck.username && (
-              <span className='error'>{valCheck.username}</span>
+            {validationErrors.username && (
+              <span className='error'>{validationErrors.username}</span>
             )}
           </div>
           <div>
@@ -51,14 +37,14 @@ function DisplayLogin(props) {
             <input
               type='password'
               name='password'
-              onChange={(e) => handleInput(e)}
+              onChange={(e) => handleInputChange(e)}
             />
-            {valCheck.password && (
-              <span className='error'>{valCheck.password}</span>
+            {validationErrors.password && (
+              <span className='error'>{validationErrors.password}</span>
             )}
           </div>
           <button type='submit'>Login</button>
-          <button type='submit' onClick={(e) => handlRegister(e)}>
+          <button type='submit' onClick={(e) => navigate('/register')}>
             Register
           </button>
         </form>

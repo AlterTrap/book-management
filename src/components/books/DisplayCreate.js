@@ -1,21 +1,10 @@
 import React, { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
+import LogoutLayout from '../common/LogoutLayout';
 
 function CreateBook(props) {
   const navigate = useNavigate();
   const { error, createBook, handleInputChange, valCheck } = props;
-
-  const handleSubmit = (e) => {
-    createBook(e);
-  };
-
-  const handleInput = (e) => {
-    handleInputChange(e);
-  };
-
-  const handleBack = (e) => {
-    navigate('/books');
-  };
 
   return (
     <Fragment>
@@ -30,10 +19,14 @@ function CreateBook(props) {
       >
         <h1>Add Book</h1>
         {error && <span>{error}</span>}
-        <form onSubmit={(e) => handleSubmit(e)}>
+        <form onSubmit={(e) => createBook(e)}>
           <div>
             <label>Name:</label>
-            <input type='text' name='name' onChange={(e) => handleInput(e)} />
+            <input
+              type='text'
+              name='name'
+              onChange={(e) => handleInputChange(e)}
+            />
             {valCheck.name && <span className='error'>{valCheck.name}</span>}
           </div>
           <div>
@@ -41,16 +34,17 @@ function CreateBook(props) {
             <input
               type='category'
               name='category'
-              onChange={(e) => handleInput(e)}
+              onChange={(e) => handleInputChange(e)}
             />
             {valCheck.category && (
               <span className='error'>{valCheck.category}</span>
             )}
           </div>
           <button type='submit'>Submit</button>
-          <button type='submit' onClick={(e) => handleBack(e)}>
+          <button type='submit' onClick={() => navigate('/books')}>
             Back
           </button>
+          <LogoutLayout />
         </form>
       </div>
     </Fragment>

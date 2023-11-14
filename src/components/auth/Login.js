@@ -6,20 +6,7 @@ import jwtDecode from 'jwt-decode';
 import DisplayLogin from './DisplayLogin';
 import Error from '../common/Error';
 import API from '../common/Api';
-
-const loginValidation = z.object({
-  username: z
-    .string({ required_error: 'Username required' })
-    .min(6, { message: 'Username not enough 6 letters' })
-    .regex(/^[a-zA-Z0-9_-]+$/, { message: 'Username is invalid' }),
-  password: z
-    .string({ required_error: 'Password required' })
-    .min(6, { message: 'Password not enough 6 letters' })
-    .regex(/^[a-zA-Z0-9_-]+$/, { message: 'password is invalid' })
-    .regex(new RegExp('.*[A-Z].*'), {
-      message: 'Password require 1 upscale letter',
-    }),
-});
+import { loginSchema } from '../../util/validation';
 
 const Login = () => {
   const [state, setState] = useState({
@@ -28,17 +15,23 @@ const Login = () => {
   });
   const [error, setError] = useState('');
   const [serverErr, setServerErr] = useState('');
-  const [valCheck, setValCheck] = useState('');
+  const [validationErrors, setValidationErrors] = useState('');
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const { user, setUser } = useAuth();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
   };
 
+  const resetErrors = () => {
+    setError('');
+    setValidationErrors('');
+  };
+
   const login = async (e) => {
     e.preventDefault();
+    resetErrors();
 
     const data = {
       username: state.username,
@@ -46,7 +39,7 @@ const Login = () => {
     };
 
     try {
-      loginValidation.parse(state);
+      loginSchema.parse(state);
 
       const response = await API.post('/login', data);
 
@@ -66,13 +59,14 @@ const Login = () => {
         setServerErr('Internal server error, please try again later');
       } else if (err.response && err.response.status === 409) {
         setError(err.response.data);
+        setValidationErrors({});
       } else if (err instanceof z.ZodError) {
         const errors = {};
         err.errors.map((validationError) => {
           errors[validationError.path[0]] = validationError.message;
           return null;
         });
-        setValCheck(errors);
+        setValidationErrors(errors);
       }
     }
   };
@@ -85,8 +79,9 @@ const Login = () => {
         login={login}
         error={error}
         handleInputChange={handleInputChange}
-        valCheck={valCheck}
+        validationErrors={validationErrors}
         state={state}
+        user={user}
       />
     );
   }

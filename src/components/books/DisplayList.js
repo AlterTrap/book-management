@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import LogoutLayout from '../common/LogoutLayout';
 
 function List(props) {
   const navigate = useNavigate();
@@ -8,15 +9,6 @@ function List(props) {
 
   const handleRowClick = (bookId) => {
     navigate(`/books/${bookId}`);
-  };
-
-  const handleCreateClick = () => {
-    navigate(`/books/create`);
-  };
-
-  const handleLogoutClick = async () => {
-    await localStorage.removeItem('jwtToken');
-    navigate(`/login`);
   };
 
   return (
@@ -39,8 +31,8 @@ function List(props) {
             marginBottom: '10px',
           }}
         >
-          <button onClick={() => handleCreateClick()}>Add Book</button>
-          <button onClick={() => handleLogoutClick()}>Log Out</button>
+          <button onClick={() => navigate(`/books/create`)}>Add Book</button>
+          <LogoutLayout />
         </div>
         <table
           border='1'

@@ -51,7 +51,7 @@ function Create() {
     }
 
     try {
-      await API.post(`books/`, data);
+      await API.post(`/books`, data);
 
       navigate('/books');
     } catch (err) {

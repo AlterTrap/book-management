@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
+import LogoutLayout from '../common/LogoutLayout';
 
 function UpdateBook(props) {
   const navigate = useNavigate();
@@ -57,6 +58,7 @@ function UpdateBook(props) {
           <button type='submit' onClick={(e) => handleBack(e)}>
             Back
           </button>
+          <LogoutLayout />
         </form>
       </div>
     </Fragment>

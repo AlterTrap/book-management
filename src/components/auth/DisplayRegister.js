@@ -1,23 +1,9 @@
 import React, { Fragment } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
-import { useAuth } from '../provider/AuthProvider';
 
 function DisplayRegister(props) {
   const navigate = useNavigate();
-  const { error, register, handleInputChange, valCheck } = props;
-  const { user } = useAuth();
-
-  const handleSubmit = (e) => {
-    register(e);
-  };
-
-  const handleInput = (e) => {
-    handleInputChange(e);
-  };
-
-  const handleBack = (e) => {
-    navigate('/login');
-  };
+  const { error, register, handleInputChange, validationErrors, user } = props;
 
   return user ? (
     <Navigate to='/books' replace={true} />
@@ -34,19 +20,19 @@ function DisplayRegister(props) {
       >
         <h1>Register</h1>
         {error && <span>{error}</span>}
-        {valCheck.undefined && (
-          <span className='error'>{valCheck.undefined}</span>
+        {validationErrors.undefined && (
+          <span className='error'>{validationErrors.undefined}</span>
         )}
-        <form onSubmit={(e) => handleSubmit(e)}>
+        <form onSubmit={(e) => register(e)}>
           <div>
             <label>Username:</label>
             <input
               type='text'
               name='username'
-              onChange={(e) => handleInput(e)}
+              onChange={(e) => handleInputChange(e)}
             />
-            {valCheck.username && (
-              <span className='error'>{valCheck.username}</span>
+            {validationErrors.username && (
+              <span className='error'>{validationErrors.username}</span>
             )}
           </div>
           <div>
@@ -54,10 +40,10 @@ function DisplayRegister(props) {
             <input
               type='password'
               name='password'
-              onChange={(e) => handleInput(e)}
+              onChange={(e) => handleInputChange(e)}
             />
-            {valCheck.password && (
-              <span className='error'>{valCheck.password}</span>
+            {validationErrors.password && (
+              <span className='error'>{validationErrors.password}</span>
             )}
           </div>
           <div>
@@ -65,14 +51,14 @@ function DisplayRegister(props) {
             <input
               type='password'
               name='passwordCfm'
-              onChange={(e) => handleInput(e)}
+              onChange={(e) => handleInputChange(e)}
             />
-            {valCheck.passwordCfm && (
-              <span className='error'>{valCheck.passwordCfm}</span>
+            {validationErrors.passwordCfm && (
+              <span className='error'>{validationErrors.passwordCfm}</span>
             )}
           </div>
           <button type='submit'>Register</button>
-          <button type='submit' onClick={(e) => handleBack(e)}>
+          <button type='submit' onClick={() => navigate('/login')}>
             Back
           </button>
         </form>

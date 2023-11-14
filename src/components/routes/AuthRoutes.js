@@ -49,6 +49,7 @@ function AuthRoutes() {
             />
           );
         }
+        return null;
       })}
     </Routes>
   );

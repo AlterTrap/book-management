@@ -6,31 +6,7 @@ import jwtDecode from 'jwt-decode';
 import DisplayRegister from './DisplayRegister';
 import Error from '../common/Error';
 import API from '../common/Api';
-
-const registerValidation = z
-  .object({
-    username: z
-      .string({ required_error: 'Username required' })
-      .min(6, { message: 'Username not enough 6 letters' })
-      .regex(/^[a-zA-Z0-9_-]+$/, { message: 'Username is invalid' }),
-    password: z
-      .string({ required_error: 'Password required' })
-      .min(6, { message: 'Password not enough 6 letters' })
-      .regex(/^[a-zA-Z0-9_-]+$/, { message: 'password is invalid' })
-      .regex(new RegExp('.*[A-Z].*'), {
-        message: 'Password require 1 upscale letter',
-      }),
-    passwordCfm: z
-      .string({ required_error: 'Password confirm required' })
-      .min(6, { message: 'Password confirm not enough 6 letters' })
-      .regex(/^[a-zA-Z0-9_-]+$/, { message: 'password confirm is invalid' })
-      .regex(new RegExp('.*[A-Z].*'), {
-        message: 'Password confirm require 1 upscale letter',
-      }),
-  })
-  .refine((data) => data.password === data.passwordCfm, {
-    message: 'Password and Password Confirm do not match',
-  });
+import { registerSchema } from '../../util/validation';
 
 const Register = () => {
   const [state, setState] = useState({
@@ -40,17 +16,23 @@ const Register = () => {
   });
   const [error, setError] = useState('');
   const [serverErr, setServerErr] = useState('');
-  const [valCheck, setValCheck] = useState('');
+  const [validationErrors, setValidationErrors] = useState('');
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const { user, setUser } = useAuth();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
   };
 
+  const resetErrors = () => {
+    setError('');
+    setValidationErrors('');
+  };
+
   const register = async (e) => {
     e.preventDefault();
+    resetErrors();
 
     const data = {
       username: state.username,
@@ -59,7 +41,7 @@ const Register = () => {
     };
 
     try {
-      registerValidation.parse(state);
+      registerSchema.parse(state);
 
       const response = await API.post('/register', data);
 
@@ -79,14 +61,14 @@ const Register = () => {
         setServerErr('Internal server error, please try again later');
       } else if (err.response && err.response.status === 409) {
         setError(err.response.data);
-        setValCheck({});
+        setValidationErrors({});
       } else if (err instanceof z.ZodError) {
         const errors = {};
         err.errors.map((validationError) => {
           errors[validationError.path[0]] = validationError.message;
           return null;
         });
-        setValCheck(errors);
+        setValidationErrors(errors);
       }
     }
   };
@@ -99,8 +81,9 @@ const Register = () => {
         register={register}
         error={error}
         handleInputChange={handleInputChange}
-        valCheck={valCheck}
+        validationErrors={validationErrors}
         state={state}
+        user={user}
       />
     );
   }
