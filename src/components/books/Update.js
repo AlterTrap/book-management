@@ -11,7 +11,7 @@ function Update() {
     category: '',
   });
   const [error, setError] = useState('');
-  const [valCheck, setValCheck] = useState('');
+  const [validationErrors, setValidationErrors] = useState('');
   const [serverError, setServerError] = useState('');
   const id = useParams();
   const navigate = useNavigate();
@@ -61,14 +61,20 @@ function Update() {
       newErrors.category = 'Category is required';
     }
 
-    setValCheck(newErrors);
+    setValidationErrors(newErrors);
 
     // Check if there are any validation errors
     return Object.keys(newErrors).length === 0;
   };
 
+  const resetErrors = () => {
+    setError('');
+    setValidationErrors('');
+  };
+
   const updateBook = async (e) => {
     e.preventDefault();
+    resetErrors();
 
     const data = {
       name: state.name,
@@ -101,7 +107,7 @@ function Update() {
         updateBook={updateBook}
         error={error}
         handleInputChange={handleInputChange}
-        valCheck={valCheck}
+        validationErrors={validationErrors}
         state={state}
       />
     );

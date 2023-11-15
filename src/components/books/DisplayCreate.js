@@ -4,7 +4,7 @@ import LogoutLayout from '../common/LogoutLayout';
 
 function CreateBook(props) {
   const navigate = useNavigate();
-  const { error, createBook, handleInputChange, valCheck } = props;
+  const { error, createBook, handleInputChange, validationErrors } = props;
 
   return (
     <Fragment>
@@ -27,7 +27,9 @@ function CreateBook(props) {
               name='name'
               onChange={(e) => handleInputChange(e)}
             />
-            {valCheck.name && <span className='error'>{valCheck.name}</span>}
+            {validationErrors.name && (
+              <span className='error'>{validationErrors.name}</span>
+            )}
           </div>
           <div>
             <label>category:</label>
@@ -36,8 +38,8 @@ function CreateBook(props) {
               name='category'
               onChange={(e) => handleInputChange(e)}
             />
-            {valCheck.category && (
-              <span className='error'>{valCheck.category}</span>
+            {validationErrors.category && (
+              <span className='error'>{validationErrors.category}</span>
             )}
           </div>
           <button type='submit'>Submit</button>

@@ -4,19 +4,8 @@ import LogoutLayout from '../common/LogoutLayout';
 
 function UpdateBook(props) {
   const navigate = useNavigate();
-  const { error, updateBook, handleInputChange, valCheck, state } = props;
-
-  const handleSubmit = (e) => {
-    updateBook(e);
-  };
-
-  const handleInput = (e) => {
-    handleInputChange(e);
-  };
-
-  const handleBack = (e) => {
-    navigate('/books');
-  };
+  const { error, updateBook, handleInputChange, validationErrors, state } =
+    props;
 
   return (
     <Fragment>
@@ -31,16 +20,18 @@ function UpdateBook(props) {
       >
         <h1>Update Book</h1>
         {error && <span>{error}</span>}
-        <form onSubmit={(e) => handleSubmit(e)}>
+        <form onSubmit={(e) => updateBook(e)}>
           <div>
             <label>Name:</label>
             <input
               type='text'
               name='name'
               value={state.name}
-              onChange={(e) => handleInput(e)}
+              onChange={(e) => handleInputChange(e)}
             />
-            {valCheck.name && <span className='error'>{valCheck.name}</span>}
+            {validationErrors.name && (
+              <span className='error'>{validationErrors.name}</span>
+            )}
           </div>
           <div>
             <label>category:</label>
@@ -48,14 +39,14 @@ function UpdateBook(props) {
               type='category'
               name='category'
               value={state.category}
-              onChange={(e) => handleInput(e)}
+              onChange={(e) => handleInputChange(e)}
             />
-            {valCheck.category && (
-              <span className='error'>{valCheck.category}</span>
+            {validationErrors.category && (
+              <span className='error'>{validationErrors.category}</span>
             )}
           </div>
           <button type='submit'>Submit</button>
-          <button type='submit' onClick={(e) => handleBack(e)}>
+          <button type='submit' onClick={() => navigate('/books')}>
             Back
           </button>
           <LogoutLayout />
