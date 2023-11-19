@@ -21,32 +21,38 @@ function DisplayLogin(props) {
         <h1>Login</h1>
         {error && <span>{error}</span>}
         <form onSubmit={(e) => login(e)}>
-          <div>
+          {validationErrors.username && (
+            <div style={{ textAlign: 'center' }}>
+              <span className='error'>{validationErrors.username}</span>
+            </div>
+          )}
+          <div style={{ textAlign: 'center' }}>
             <label>Username:</label>
             <input
               type='text'
               name='username'
               onChange={(e) => handleInputChange(e)}
             />
-            {validationErrors.username && (
-              <span className='error'>{validationErrors.username}</span>
-            )}
           </div>
-          <div>
+          {validationErrors.password && (
+            <div style={{ textAlign: 'center' }}>
+              <span className='error'>{validationErrors.password}</span>
+            </div>
+          )}
+          <div style={{ textAlign: 'center' }}>
             <label>Password:</label>
             <input
               type='password'
               name='password'
               onChange={(e) => handleInputChange(e)}
             />
-            {validationErrors.password && (
-              <span className='error'>{validationErrors.password}</span>
-            )}
           </div>
-          <button type='submit'>Login</button>
-          <button type='submit' onClick={(e) => navigate('/register')}>
-            Register
-          </button>
+          <div style={{ textAlign: 'center' }}>
+            <button type='submit'>Login</button>
+            <button type='submit' onClick={(e) => navigate('/register')}>
+              Register
+            </button>
+          </div>
         </form>
       </div>
     </Fragment>

@@ -6,7 +6,7 @@ import jwtDecode from 'jwt-decode';
 import DisplayLogin from './DisplayLogin';
 import Error from '../common/Error';
 import API from '../common/Api';
-import { loginSchema } from '../../util/validation';
+import { loginValidation } from '../../util/validation';
 
 const Login = () => {
   const [state, setState] = useState({
@@ -39,7 +39,7 @@ const Login = () => {
     };
 
     try {
-      loginSchema.parse(state);
+      loginValidation.parse(state);
 
       const response = await API.post('/login', data);
 

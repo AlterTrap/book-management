@@ -6,7 +6,7 @@ import jwtDecode from 'jwt-decode';
 import DisplayRegister from './DisplayRegister';
 import Error from '../common/Error';
 import API from '../common/Api';
-import { registerSchema } from '../../util/validation';
+import { registerValidation } from '../../util/validation';
 
 const Register = () => {
   const [state, setState] = useState({
@@ -41,7 +41,7 @@ const Register = () => {
     };
 
     try {
-      registerSchema.parse(state);
+      registerValidation.parse(state);
 
       const response = await API.post('/register', data);
 
