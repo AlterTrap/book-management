@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LogoutLayout from '../common/LogoutLayout';
+import Layout from '../common/Layout';
 
 function UpdateBook(props) {
   const navigate = useNavigate();
@@ -8,16 +8,8 @@ function UpdateBook(props) {
     props;
 
   return (
-    <Fragment>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
-        }}
-      >
+    <Layout>
+      <Fragment>
         <h1>Update Book</h1>
         {error && <span>{error}</span>}
         <form onSubmit={(e) => updateBook(e)}>
@@ -49,10 +41,9 @@ function UpdateBook(props) {
           <button type='submit' onClick={() => navigate('/books')}>
             Back
           </button>
-          <LogoutLayout />
         </form>
-      </div>
-    </Fragment>
+      </Fragment>
+    </Layout>
   );
 }
 

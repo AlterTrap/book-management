@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LogoutLayout from '../common/LogoutLayout';
+import Layout from '../common/Layout';
 
 function DisplayDetail(props) {
   const navigate = useNavigate();
@@ -24,16 +24,8 @@ function DisplayDetail(props) {
   };
 
   return (
-    <Fragment>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
-        }}
-      >
+    <Layout>
+      <Fragment>
         <h1>Book</h1>
         <form>
           <div>
@@ -53,10 +45,9 @@ function DisplayDetail(props) {
           <button type='submit' onClick={() => navigate('/books')}>
             Back
           </button>
-          <LogoutLayout />
         </form>
-      </div>
-    </Fragment>
+      </Fragment>
+    </Layout>
   );
 }
 

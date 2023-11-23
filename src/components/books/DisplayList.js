@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
-import LogoutLayout from '../common/LogoutLayout';
+import Layout from '../common/Layout';
 
 function List(props) {
   const navigate = useNavigate();
@@ -12,27 +12,17 @@ function List(props) {
   };
 
   return (
-    <Fragment>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100vh',
-          padding: '20px',
-        }}
-      >
+    <Layout>
+      <Fragment>
         <div
           style={{
             display: 'flex',
-            justifyContent: 'space-between', // This will push buttons to the sides
+            justifyContent: 'space-between',
             width: '40%',
             marginBottom: '10px',
           }}
         >
           <button onClick={() => navigate(`/books/create`)}>Add Book</button>
-          <LogoutLayout />
         </div>
         <table
           border='1'
@@ -61,8 +51,8 @@ function List(props) {
             ))}
           </tbody>
         </table>
-      </div>
-    </Fragment>
+      </Fragment>
+    </Layout>
   );
 }
 

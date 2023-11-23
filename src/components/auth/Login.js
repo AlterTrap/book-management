@@ -67,6 +67,8 @@ const Login = () => {
           return null;
         });
         setValidationErrors(errors);
+      } else {
+        setValidationErrors(err.response.data);
       }
     }
   };

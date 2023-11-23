@@ -1,22 +1,14 @@
 import React, { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LogoutLayout from '../common/LogoutLayout';
+import Layout from '../common/Layout';
 
 function CreateBook(props) {
   const navigate = useNavigate();
   const { error, createBook, handleInputChange, validationErrors } = props;
 
   return (
-    <Fragment>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
-        }}
-      >
+    <Layout>
+      <Fragment>
         <h1>Add Book</h1>
         {error && <span>{error}</span>}
         <form onSubmit={(e) => createBook(e)}>
@@ -46,10 +38,9 @@ function CreateBook(props) {
           <button type='submit' onClick={() => navigate('/books')}>
             Back
           </button>
-          <LogoutLayout />
         </form>
-      </div>
-    </Fragment>
+      </Fragment>
+    </Layout>
   );
 }
 
