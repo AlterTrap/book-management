@@ -10,7 +10,8 @@ function Create() {
     category: '',
   });
   const [error, setError] = useState('');
-  const [valCheck, setValCheck] = useState('');
+  const [serverErr, setServerErr] = useState('');
+  const [validationErrors, setValidationErrors] = useState('');
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -31,14 +32,20 @@ function Create() {
       newErrors.category = 'Category is required';
     }
 
-    setValCheck(newErrors);
+    setValidationErrors(newErrors);
 
     // Check if there are any validation errors
     return Object.keys(newErrors).length === 0;
   };
 
+  const resetErrors = () => {
+    setError('');
+    setValidationErrors('');
+  };
+
   const createBook = async (e) => {
     e.preventDefault();
+    resetErrors();
 
     const data = {
       name: state.name,
@@ -50,26 +57,30 @@ function Create() {
     }
 
     try {
-      await API.post(`books/`, data);
+      await API.post(`/books`, data);
 
       navigate('/books');
     } catch (err) {
-      if (err.response.status === 500) {
-        return <Error msg={'Internal server error, please try again later'} />;
-      } else if (err.response.status === 409) {
+      if (err.response && err.response.status === 500) {
+        setServerErr('Internal server error, please try again later');
+      } else if (err.response && err.response.status === 409) {
         setError(err.response.data);
       }
     }
   };
 
-  return (
-    <CreateBook
-      createBook={createBook}
-      error={error}
-      handleInputChange={handleInputChange}
-      valCheck={valCheck}
-    />
-  );
+  if (serverErr) {
+    <Error msg={serverErr} />;
+  } else {
+    return (
+      <CreateBook
+        createBook={createBook}
+        error={error}
+        handleInputChange={handleInputChange}
+        validationErrors={validationErrors}
+      />
+    );
+  }
 }
 
 export default Create;

@@ -11,7 +11,6 @@ function Index() {
   const [list, setList] = useState([]);
   const [error, setError] = useState('');
 
-  // get data from server (side effect codes)
   useEffect(() => {
     const getBooks = async () => {
       const params = {};
@@ -27,14 +26,14 @@ function Index() {
       } catch (err) {
         if (err.response && err.response.status === 404) {
           setError('Book Not Found');
-        } else if (err.response.status === 500) {
+        } else if (err.response && err.response.status === 500) {
           setError('Internal server error, please try again later');
         }
       }
     };
 
     getBooks();
-  }, [name, category]);
+  }, [category, name]);
 
   if (error) {
     return <Error msg={error} />;

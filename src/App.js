@@ -1,32 +1,23 @@
 import './App.css';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import BookIndex from './components/books/Index';
-import BookCreate from './components/books/Create';
-import BookUpdate from './components/books/Update';
-import BookDetail from './components/books/Detail';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
+import AuthProvider from './components/provider/AuthProvider';
+import AuthRoutes from './components/routes/AuthRoutes';
 
 function App() {
-  const router = createBrowserRouter([
-    { path: '/', element: <div>Hello world!</div> },
-    {
-      path: '/books',
-      element: <BookIndex />,
-    },
-    {
-      path: '/books/:id',
-      element: <BookDetail />,
-    },
-    {
-      path: '/books/create',
-      element: <BookCreate />,
-    },
-    {
-      path: `/books/update/:id`,
-      element: <BookUpdate />,
-    },
-  ]);
-
-  return <RouterProvider router={router} />;
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path='/' element={<div>Hello world!</div>} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/*' element={<AuthRoutes />} />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
+  );
 }
 
 export default App;
