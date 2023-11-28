@@ -56,7 +56,7 @@ const Login = () => {
       navigate('/books');
     } catch (err) {
       if (err.response && err.response.status === 500) {
-        setServerErr('Internal server error, please try again later');
+        setServerErr(err.response.data.msg);
       } else if (err.response && err.response.status === 409) {
         setError(err.response.data);
         setValidationErrors({});
@@ -74,7 +74,7 @@ const Login = () => {
   };
 
   if (serverErr) {
-    <Error msg={serverErr} />;
+    return <Error msg={serverErr} />;
   } else {
     return (
       <DisplayLogin
