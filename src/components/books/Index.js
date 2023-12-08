@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import List from '../books/DisplayList';
 import Error from '../common/Error';
@@ -10,10 +10,11 @@ function Index() {
   const category = searchParams.get('category');
   const [list, setList] = useState([]);
   const [error, setError] = useState('');
+  const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
-    const getBooks = async () => {
-      const params = {};
+  const getBooks = useCallback(
+    async (page = 1) => {
+      const params = { page };
 
       if (name && name.trim('')) params.name = name;
 
@@ -22,7 +23,8 @@ function Index() {
       try {
         const res = await API.get('books', { params: params });
 
-        setList(res.data);
+        setList(res.data.list);
+        setTotalPages(res.data.totalPages);
       } catch (err) {
         if (err.response && err.response.status === 404) {
           setError('Book Not Found');
@@ -30,15 +32,18 @@ function Index() {
           setError('Internal server error, please try again later');
         }
       }
-    };
+    },
+    [category, name]
+  );
 
+  useEffect(() => {
     getBooks();
-  }, [category, name]);
+  }, [getBooks]);
 
   if (error) {
     return <Error msg={error} />;
   } else {
-    return <List list={list} />;
+    return <List list={list} getBooks={getBooks} totalPages={totalPages} />;
   }
 }
 

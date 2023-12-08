@@ -28,8 +28,8 @@ function Update() {
         const res = await API.get('books', { params: params });
 
         setState({
-          name: res.data[0].name,
-          category: res.data[0].category,
+          name: res.data.list[0].name,
+          category: res.data.list[0].category,
         });
       } catch (err) {
         if (err.response && err.response.status === 404) {

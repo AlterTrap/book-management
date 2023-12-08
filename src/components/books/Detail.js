@@ -29,9 +29,9 @@ function DetailBook() {
         const res = await API.get('books', { params: params });
 
         setState({
-          id: res.data[0].id,
-          name: res.data[0].name,
-          category: res.data[0].category,
+          id: res.data.list[0].id,
+          name: res.data.list[0].name,
+          category: res.data.list[0].category,
         });
       } catch (err) {
         if (err.response && err.response.status === 404) {

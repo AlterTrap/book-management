@@ -1,14 +1,54 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../common/Layout';
 
 function List(props) {
   const navigate = useNavigate();
-  const { list } = props;
+  const [currentPage, setCurrentPage] = useState(1);
+  const { list, getBooks, totalPages } = props;
 
   const handleRowClick = (bookId) => {
     navigate(`/books/${bookId}`);
+  };
+
+  const handlePrev = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      getBooks(currentPage - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+      getBooks(currentPage + 1);
+    }
+  };
+
+  const handlePageClick = (page) => {
+    setCurrentPage(page);
+    getBooks(page);
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(
+        <span
+          key={i}
+          style={{
+            cursor: 'pointer',
+            margin: '5px',
+            textDecoration: currentPage === i ? 'underline' : 'none',
+          }}
+          onClick={() => handlePageClick(i)}
+        >
+          {i}
+        </span>
+      );
+    }
+    return pageNumbers;
   };
 
   return (
@@ -50,6 +90,15 @@ function List(props) {
           ))}
         </tbody>
       </table>
+      <div>
+        <button onClick={handlePrev} disabled={currentPage === 1}>
+          Prev
+        </button>
+        <span>{renderPageNumbers()}</span>
+        <button onClick={handleNext} disabled={currentPage === totalPages}>
+          Next
+        </button>
+      </div>
     </Layout>
   );
 }
