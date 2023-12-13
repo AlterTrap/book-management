@@ -27,13 +27,17 @@ function Update() {
       try {
         const res = await API.get('books', { params: params });
 
-        setState({
-          name: res.data.list[0].name,
-          category: res.data.list[0].category,
-        });
+        if (res.data.list) {
+          setState({
+            name: res.data.list[0].name,
+            category: res.data.list[0].category,
+          });
+        } else {
+          setError('Book not found');
+        }
       } catch (err) {
         if (err.response && err.response.status === 404) {
-          setError('Book Not Found');
+          setError('Cannot find page');
         } else if (err.response.status === 500) {
           setError('Internal server error, please try again later');
         }

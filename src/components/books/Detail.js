@@ -28,14 +28,18 @@ function DetailBook() {
       try {
         const res = await API.get('books', { params: params });
 
-        setState({
-          id: res.data.list[0].id,
-          name: res.data.list[0].name,
-          category: res.data.list[0].category,
-        });
+        if (res.data.list) {
+          setState({
+            id: res.data.list[0].id,
+            name: res.data.list[0].name,
+            category: res.data.list[0].category,
+          });
+        } else {
+          setError('Book not found');
+        }
       } catch (err) {
         if (err.response && err.response.status === 404) {
-          setError('Book Not Found');
+          setError('Can not find page');
         } else if (err.response.status === 500) {
           setError('Internal server error, please try again later');
         }
@@ -51,7 +55,7 @@ function DetailBook() {
 
       navigate('/books', { replace: true });
     } catch (err) {
-      if (err.response && err.response.status === 404) {
+      if (err.response && err.response.status === 200) {
         setError('Book Not Found');
       } else if (err.response.status === 500) {
         setError('Internal server error, please try again later');

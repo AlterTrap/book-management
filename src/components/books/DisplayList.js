@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../common/Layout';
+import Pagination from '../common/Pagination';
 
 function List(props) {
   const navigate = useNavigate();
@@ -29,26 +30,6 @@ function List(props) {
   const handlePageClick = (page) => {
     setCurrentPage(page);
     getBooks(page);
-  };
-
-  const renderPageNumbers = () => {
-    const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(
-        <span
-          key={i}
-          style={{
-            cursor: 'pointer',
-            margin: '5px',
-            textDecoration: currentPage === i ? 'underline' : 'none',
-          }}
-          onClick={() => handlePageClick(i)}
-        >
-          {i}
-        </span>
-      );
-    }
-    return pageNumbers;
   };
 
   return (
@@ -90,15 +71,13 @@ function List(props) {
           ))}
         </tbody>
       </table>
-      <div>
-        <button onClick={handlePrev} disabled={currentPage === 1}>
-          Prev
-        </button>
-        <span>{renderPageNumbers()}</span>
-        <button onClick={handleNext} disabled={currentPage === totalPages}>
-          Next
-        </button>
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handlePrev={handlePrev}
+        handleNext={handleNext}
+        handlePageClick={handlePageClick}
+      />
     </Layout>
   );
 }
