@@ -27,18 +27,16 @@ function Update() {
       try {
         const res = await API.get('books', { params: params });
 
-        if (res.data.list) {
+        if (res.data.list && res.data.list.length > 0) {
           setState({
             name: res.data.list[0].name,
             category: res.data.list[0].category,
           });
         } else {
-          setError('Book not found');
+          setState(null);
         }
       } catch (err) {
-        if (err.response && err.response.status === 404) {
-          setError('Cannot find page');
-        } else if (err.response.status === 500) {
+        if (err.response.status === 500) {
           setError('Internal server error, please try again later');
         }
       }
@@ -86,7 +84,7 @@ function Update() {
     };
 
     if (!validateForm()) {
-      return; // Don't proceed with the request if there are validation errors
+      return;
     }
 
     try {

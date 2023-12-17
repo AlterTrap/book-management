@@ -23,6 +23,15 @@ function DisplayDetail(props) {
     }
   };
 
+  if (!state) {
+    return (
+      <Layout>
+        <h1>No Book Found</h1>
+        <button onClick={() => navigate('/books')}>Back to Books</button>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <h1>Book</h1>
