@@ -37,7 +37,9 @@ function DetailBook() {
           setState(null);
         }
       } catch (err) {
-        if (err.response.status === 500) {
+        if (err.response && err.response.status === 404) {
+          setError('Book Not Found');
+        } else if (err.response.status === 500) {
           setError('Internal server error, please try again later');
         }
       }
