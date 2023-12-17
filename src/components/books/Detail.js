@@ -52,7 +52,7 @@ function DetailBook() {
 
       navigate('/books', { replace: true });
     } catch (err) {
-      if (err.response && err.response.status === 200) {
+      if (err.response && err.response.status === 404) {
         setError('Book Not Found');
       } else if (err.response.status === 500) {
         setError('Internal server error, please try again later');
