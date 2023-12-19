@@ -7,32 +7,27 @@ function Pagination({
   handleNext,
   handlePageClick,
 }) {
-  const renderPageNumbers = () => {
-    const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(
-        <span
-          key={i}
-          style={{
-            cursor: 'pointer',
-            margin: '5px',
-            textDecoration: currentPage === i ? 'underline' : 'none',
-          }}
-          onClick={() => handlePageClick(i)}
-        >
-          {i}
-        </span>
-      );
-    }
-    return pageNumbers;
-  };
-
   return (
     <div>
       <button onClick={handlePrev} disabled={currentPage === 1}>
         Prev
       </button>
-      <span>{renderPageNumbers()}</span>
+      <span>
+        {[...Array(totalPages).keys()].map((pageNumber) => (
+          <span
+            key={pageNumber + 1}
+            style={{
+              cursor: 'pointer',
+              margin: '5px',
+              textDecoration:
+                currentPage === pageNumber + 1 ? 'underline' : 'none',
+            }}
+            onClick={() => handlePageClick(pageNumber + 1)}
+          >
+            {pageNumber + 1}
+          </span>
+        ))}
+      </span>
       <button onClick={handleNext} disabled={currentPage === totalPages}>
         Next
       </button>
