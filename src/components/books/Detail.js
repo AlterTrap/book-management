@@ -41,6 +41,8 @@ function DetailBook() {
           setError('Book Not Found');
         } else if (err.response.status === 500) {
           setError('Internal server error, please try again later');
+        } else {
+          setError('Server Error');
         }
       }
     };
@@ -58,6 +60,8 @@ function DetailBook() {
         setError('Book Not Found');
       } else if (err.response.status === 500) {
         setError('Internal server error, please try again later');
+      } else {
+        setError('Server Error');
       }
     }
   };

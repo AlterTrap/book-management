@@ -40,6 +40,8 @@ function Update() {
           setError('Book Not Found');
         } else if (err.response.status === 500) {
           setError('Internal server error, please try again later');
+        } else {
+          setError('Server Error');
         }
       }
     };
@@ -99,6 +101,8 @@ function Update() {
         setServerError('Internal server error, please try again later');
       } else if (err.response.status === 409) {
         setError(err.response.data);
+      } else {
+        setError('Server Error');
       }
     }
   };

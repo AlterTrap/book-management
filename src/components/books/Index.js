@@ -23,13 +23,19 @@ function Index() {
       try {
         const res = await API.get('books', { params: params });
 
-        setList(res.data.list);
-        setTotalPages(res.data.totalPages);
+        if (res.data.list && res.data.list.length > 0) {
+          setList(res.data.list);
+          setTotalPages(res.data.totalPages);
+        } else {
+          setList([]);
+        }
       } catch (err) {
         if (err.response && err.response.status === 404) {
           setError('Book Not Found');
         } else if (err.response && err.response.status === 500) {
           setError('Internal server error, please try again later');
+        } else {
+          setError('Server Error');
         }
       }
     },

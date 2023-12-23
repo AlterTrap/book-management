@@ -65,6 +65,8 @@ function Create() {
         setServerErr('Internal server error, please try again later');
       } else if (err.response && err.response.status === 409) {
         setError(err.response.data);
+      } else {
+        setError('Server Error');
       }
     }
   };
