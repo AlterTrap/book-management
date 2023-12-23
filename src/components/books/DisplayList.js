@@ -1,14 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../common/Layout';
+import Pagination from '../common/Pagination';
 
 function List(props) {
   const navigate = useNavigate();
-  const { list } = props;
+  const [currentPage, setCurrentPage] = useState(1);
+  const { list, getBooks, totalPages } = props;
 
   const handleRowClick = (bookId) => {
     navigate(`/books/${bookId}`);
+  };
+
+  const handlePrev = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      getBooks(currentPage - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+      getBooks(currentPage + 1);
+    }
+  };
+
+  const handlePageClick = (page) => {
+    setCurrentPage(page);
+    getBooks(page);
   };
 
   return (
@@ -50,6 +71,13 @@ function List(props) {
           ))}
         </tbody>
       </table>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handlePrev={handlePrev}
+        handleNext={handleNext}
+        handlePageClick={handlePageClick}
+      />
     </Layout>
   );
 }

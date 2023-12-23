@@ -7,6 +7,15 @@ function UpdateBook(props) {
   const { error, updateBook, handleInputChange, validationErrors, state } =
     props;
 
+  if (!state) {
+    return (
+      <Layout>
+        <h1>No Book Found</h1>
+        <button onClick={() => navigate('/books')}>Back to Books</button>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <h1>Update Book</h1>
@@ -25,9 +34,9 @@ function UpdateBook(props) {
           )}
         </div>
         <div>
-          <label>category:</label>
+          <label>Category:</label>
           <input
-            type='category'
+            type='text'
             name='category'
             value={state.category}
             onChange={(e) => handleInputChange(e)}
@@ -37,7 +46,7 @@ function UpdateBook(props) {
           )}
         </div>
         <button type='submit'>Submit</button>
-        <button type='submit' onClick={() => navigate('/books')}>
+        <button type='button' onClick={() => navigate('/books')}>
           Back
         </button>
       </form>

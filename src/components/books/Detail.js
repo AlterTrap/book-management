@@ -27,17 +27,22 @@ function DetailBook() {
 
       try {
         const res = await API.get('books', { params: params });
-
-        setState({
-          id: res.data[0].id,
-          name: res.data[0].name,
-          category: res.data[0].category,
-        });
+        if (res.data.list && res.data.list.length > 0) {
+          setState({
+            id: res.data.list[0].id,
+            name: res.data.list[0].name,
+            category: res.data.list[0].category,
+          });
+        } else {
+          setState(null);
+        }
       } catch (err) {
         if (err.response && err.response.status === 404) {
           setError('Book Not Found');
         } else if (err.response.status === 500) {
           setError('Internal server error, please try again later');
+        } else {
+          setError('Server Error');
         }
       }
     };
@@ -55,6 +60,8 @@ function DetailBook() {
         setError('Book Not Found');
       } else if (err.response.status === 500) {
         setError('Internal server error, please try again later');
+      } else {
+        setError('Server Error');
       }
     }
   };
